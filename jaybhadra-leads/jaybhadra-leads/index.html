@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jaybhadra Builders — Lead Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<nav class="dash-nav">
+  <div class="dash-logo">
+    <span class="logo-icon">🏗</span>
+    <div>
+      <div class="logo-name">Jaybhadra Builders</div>
+      <div class="logo-sub">Lead Command Center</div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <a href="projects/golden-city/index.html" class="nav-project-btn" target="_blank">🏙 Golden City Page ↗</a>
+    <button class="nav-add-btn" onclick="showAddProject()">+ Add Project</button>
+  </div>
+</nav>
+
+<div class="dash-body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Projects</div>
+      <div id="projectNav"></div>
+      <button class="sidebar-add" onclick="showAddProject()">+ New Project</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Lead Sources</div>
+      <div class="source-list" id="sourceNav"></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Quick Actions</div>
+      <a href="https://wa.me/919130711811" target="_blank" class="quick-action wa">💬 Open WhatsApp</a>
+      <a href="https://www.instagram.com/" target="_blank" class="quick-action ig">📸 Instagram</a>
+      <a href="https://www.facebook.com/" target="_blank" class="quick-action fb">👍 Facebook</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="dash-main">
+
+    <!-- TOP METRICS -->
+    <div class="metrics-row" id="metricsRow"></div>
+
+    <!-- CHARTS ROW -->
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">Leads by Source</div>
+        <div class="source-bars" id="sourceBars"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Leads by Project</div>
+        <div class="source-bars" id="projectBars"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Score Distribution</div>
+        <div class="score-dist" id="scoreDist"></div>
+      </div>
+    </div>
+
+    <!-- FILTERS + TABLE -->
+    <div class="table-card">
+      <div class="table-top">
+        <div class="table-title">All Leads</div>
+        <div class="table-controls">
+          <select class="filter-sel" id="filterProject" onchange="applyFilters()">
+            <option value="all">All Projects</option>
+          </select>
+          <select class="filter-sel" id="filterSource" onchange="applyFilters()">
+            <option value="all">All Sources</option>
+            <option value="Website">Website</option>
+            <option value="Instagram">Instagram</option>
+            <option value="Facebook">Facebook</option>
+            <option value="WhatsApp">WhatsApp</option>
+            <option value="Walk-in">Walk-in</option>
+          </select>
+          <select class="filter-sel" id="filterTier" onchange="applyFilters()">
+            <option value="all">All Tiers</option>
+            <option value="Hot">🔥 Hot</option>
+            <option value="Warm">🌤 Warm</option>
+            <option value="Cold">❄ Cold</option>
+          </select>
+          <button class="export-btn" onclick="exportCSV()">⬇ Export CSV</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="leads-table">
+          <thead>
+            <tr>
+              <th>Name</th><th>Phone</th><th>Project</th>
+              <th>Interest</th><th>Budget</th><th>Timeline</th>
+              <th>Source</th><th>Score</th><th>Status</th>
+              <th>Date</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="leadsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PLATFORM SETUP GUIDE -->
+    <div class="setup-card" id="platformGuide">
+      <div class="setup-title">📡 Platform Connection Guide</div>
+      <div class="setup-grid">
+
+        <div class="setup-item">
+          <div class="setup-icon ig-bg">📸</div>
+          <div class="setup-info">
+            <div class="setup-name">Instagram Lead Ads</div>
+            <div class="setup-desc">Capture leads directly from Instagram without leaving the app</div>
+          </div>
+          <div class="setup-steps">
+            <div class="step done">✓ Create Facebook Business Manager</div>
+            <div class="step done">✓ Connect Instagram account</div>
+            <div class="step">→ Create Lead Ad campaign</div>
+            <div class="step">→ Set instant form fields: Name, Phone, Project Interest</div>
+            <div class="step">→ Connect to this dashboard via Zapier/Make</div>
+          </div>
+          <a href="https://www.facebook.com/business/ads" target="_blank" class="setup-btn">Open Ads Manager ↗</a>
+        </div>
+
+        <div class="setup-item">
+          <div class="setup-icon fb-bg">👍</div>
+          <div class="setup-info">
+            <div class="setup-name">Facebook Lead Ads</div>
+            <div class="setup-desc">Same setup as Instagram — both run through Facebook Ads Manager</div>
+          </div>
+          <div class="setup-steps">
+            <div class="step done">✓ Same Business Manager as Instagram</div>
+            <div class="step">→ Create Facebook Lead Ad</div>
+            <div class="step">→ Target: Sangamner + 30km, Age 25–55</div>
+            <div class="step">→ Connect webhook to this dashboard</div>
+          </div>
+          <a href="https://www.facebook.com/business/ads" target="_blank" class="setup-btn">Open Ads Manager ↗</a>
+        </div>
+
+        <div class="setup-item">
+          <div class="setup-icon web-bg">🌐</div>
+          <div class="setup-info">
+            <div class="setup-name">Website (jaybhadrabuilders.com)</div>
+            <div class="setup-desc">Leads from the chatbot on each project landing page</div>
+          </div>
+          <div class="setup-steps">
+            <div class="step done">✓ Golden City landing page built</div>
+            <div class="step done">✓ AI chatbot qualification ready</div>
+            <div class="step">→ Host on Vercel (see README)</div>
+            <div class="step">→ Add embed code to main website</div>
+          </div>
+          <button class="setup-btn" onclick="showEmbedCode()">Get Embed Code</button>
+        </div>
+
+        <div class="setup-item">
+          <div class="setup-icon wa-bg">💬</div>
+          <div class="setup-info">
+            <div class="setup-name">WhatsApp Business</div>
+            <div class="setup-desc">Manual leads from WhatsApp chats, logged directly</div>
+          </div>
+          <div class="setup-steps">
+            <div class="step done">✓ Number: 9130711811</div>
+            <div class="step">→ Download WhatsApp Business app</div>
+            <div class="step">→ Set up Quick Replies with templates</div>
+            <div class="step">→ Use "+ Add Lead" button to log manually</div>
+          </div>
+          <button class="setup-btn" onclick="showAddLead()">+ Add Manual Lead</button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ADD LEAD MODAL -->
+<div class="modal-overlay" id="addLeadModal" onclick="closeModal('addLeadModal')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Add Manual Lead</div>
+    <div class="modal-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="ml_name" placeholder="e.g. Rajesh Patil">
+        </div>
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="text" id="ml_phone" placeholder="10-digit number">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Project</label>
+          <select id="ml_project"></select>
+        </div>
+        <div class="form-group">
+          <label>Source</label>
+          <select id="ml_source">
+            <option>Website</option><option>Instagram</option>
+            <option>Facebook</option><option>WhatsApp</option><option>Walk-in</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Interest</label>
+          <select id="ml_unit">
+            <option>2BHK Flat</option><option>3BHK Flat</option>
+            <option>1BHK Flat</option><option>Commercial Shop</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Budget</label>
+          <select id="ml_budget">
+            <option>Under ₹20L</option><option>₹20L – ₹35L</option>
+            <option>₹35L – ₹50L</option><option>Above ₹50L</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Timeline</label>
+          <select id="ml_timeline">
+            <option>Within 1 month</option><option>1–3 months</option>
+            <option>3–6 months</option><option>Just exploring</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Loan Needed?</label>
+          <select id="ml_loan">
+            <option>Yes, I need loan help</option><option>No, self-funded</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notes</label>
+        <textarea id="ml_notes" placeholder="Any additional notes..." rows="2"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal('addLeadModal')">Cancel</button>
+      <button class="modal-save" onclick="saveManualLead()">Save Lead</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PROJECT MODAL -->
+<div class="modal-overlay" id="addProjectModal" onclick="closeModal('addProjectModal')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Add New Project</div>
+    <div class="modal-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Project Name *</label>
+          <input type="text" id="np_name" placeholder="e.g. Silver Heights">
+        </div>
+        <div class="form-group">
+          <label>Location *</label>
+          <input type="text" id="np_location" placeholder="e.g. Sangamner">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Total Units</label>
+          <input type="number" id="np_units" placeholder="e.g. 48">
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="np_status">
+            <option>Ongoing</option><option>Upcoming</option><option>Completed</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal('addProjectModal')">Cancel</button>
+      <button class="modal-save" onclick="saveNewProject()">Add Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- EMBED CODE MODAL -->
+<div class="modal-overlay" id="embedModal" onclick="closeModal('embedModal')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Embed Code for jaybhadrabuilders.com</div>
+    <p style="font-size:0.88rem;color:var(--muted);margin-bottom:1rem">Add this to any page on your website to embed the Golden City enquiry chatbot:</p>
+    <pre class="embed-code" id="embedCodeBlock"></pre>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal('embedModal')">Close</button>
+      <button class="modal-save" onclick="copyEmbedCode()">Copy Code</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
