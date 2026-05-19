@@ -47,7 +47,7 @@ nav {
   min-height: 100vh; padding: 100px 0 60px;
   background:
     linear-gradient(to bottom, rgba(26,18,8,0.88) 0%, rgba(26,18,8,0.6) 50%, rgba(253,250,242,0) 100%),
-    url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1600&q=80') center/cover no-repeat;
+    url('https://i.ibb.co/21N6dQBf/Whats-App-Image-2026-05-04-at-13-52-17.jpg') center/cover no-repeat;
   display: flex; align-items: center;
 }
 .hero-inner { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
